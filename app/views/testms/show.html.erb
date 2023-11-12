@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @testm %>
+
+<div>
+  <%= link_to "Edit this testm", edit_testm_path(@testm) %> |
+  <%= link_to "Back to testms", testms_path %>
+
+  <%= button_to "Destroy this testm", @testm, method: :delete %>
+</div>

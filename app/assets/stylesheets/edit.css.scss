@@ -1,0 +1,141 @@
+/* app/assets/stylesheets/edit.css.scss */
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-header {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+  text-align: center;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+}
+
+.room-details {
+  margin-bottom: 20px;
+
+  strong {
+    font-size: 18px;
+  }
+}
+
+.edit-form {
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .ids {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+
+    .id-item {
+      margin-bottom: 5px;
+    
+      button {
+        margin-left: 10px;
+        padding: 5px 5px;
+        background-color: #d9534f;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        width: 20px;
+        height: 25px; /* Adjust the height as needed */
+      }
+    
+    }
+
+    textarea#idsInput,
+    input#password,
+    #addIdButton,
+    .edit-buttons button,
+    #submitResult {
+      width: calc(100% - 10px);
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      display: block; /* 변경된 부분 */
+      box-sizing: border-box;
+    }
+
+    textarea#idsInput {
+      height: 80px;
+    }
+
+    #addIdButton,
+    .edit-buttons button,
+    #submitResult {
+      background-color: #5bc0de;
+      color: #fff;
+      border: none;
+    }
+
+    #addIdButton,
+    .edit-buttons button {
+      height: 35px;
+    }
+
+    #addIdButton:hover,
+    .edit-buttons button:hover {
+      background-color: #4cae4c;
+    }
+
+    .password {
+      margin-bottom: 10px;
+    }
+
+    .edit-buttons {
+      text-align: center;
+
+      button {
+        background-color: #5cb85c;
+        height: 35px;
+        padding: 10px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+    }
+
+    #submitResult {
+      background-color: rgb(248, 248, 231);
+      border-radius: 3px;
+      border-color: black;
+      margin-top: 10px;
+      height: 35px;
+    }
+  }
+}
+
+.navigation-links {
+  margin-top: 20px;
+
+  a {
+    margin-right: 10px;
+  }
+}
+
+.ids-list-item {
+  margin-bottom: 5px;
+  /* 다른 스타일 속성들 추가 */
+}
+
+.ids-list-item button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px; /* Adjust the font size */
+}

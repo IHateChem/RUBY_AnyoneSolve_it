@@ -1,0 +1,43 @@
+/* app/assets/stylesheets/show.scss */
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .notice {
+    color: green;
+    margin-bottom: 20px;
+  }
+  
+  .navigation-links {
+    margin-top: 20px;
+  
+    a, button {
+      margin-right: 10px;
+    }
+  
+    .edit-link {
+      color: #337ab7;
+      text-decoration: none;
+    }
+  
+    .back-link {
+      color: #5bc0de;
+      text-decoration: none;
+    }
+  
+    .destroy-button {
+      background-color: #d9534f;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  
+    .destroy-button:hover {
+      background-color: #c9302c;
+    }
+  }
+  

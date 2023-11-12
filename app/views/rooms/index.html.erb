@@ -1,0 +1,27 @@
+<!-- app/views/rooms/index.html.erb -->
+
+<div class="container">
+  <p style="color: green;"><%= notice %></p>
+
+  <div class="page-header">
+    <h1>스터디 찾기</h1>
+  </div>
+
+  <form action="/room/exist" class="search-form">
+    <div class="input-group">
+      <label for="name">스터디명:</label>
+      <input id="name" type="text" name="name">
+      <input type="submit" value="검색">
+    </div>
+  </form>
+
+  <br>
+
+  <% if defined?(@error_message) %>
+    <div class="error-message" style="color: red;">
+      <%= @error_message %>
+    </div>
+  <% end %>
+
+  <button class="create-button" type="button" onclick="location.href='<%= new_room_path %>'">스터디 만들기</button>
+</div>

@@ -1,0 +1,36 @@
+<!-- app/views/rooms/room.html.erb -->
+
+<div id="<%= dom_id room %>" class="room-container">
+  <p class="room-info">
+    <strong>스터디명:</strong>
+    <%= room.name %>
+  </p>
+  <p class="room-info">
+    <strong>백준 아이디: </strong>
+    <%= room.ids %>
+  </p>
+  <div id="search" class="search-container">
+    <input id="problemId" type="text" placeholder="백준 번호 입력해주세요.">
+    <button type="button" onclick="checkDuplicate()">이거 푼사람 있나요?</button>
+    <div id="searchResultContainer"></div>
+  </div>
+</div>
+
+<script>
+  function checkDuplicate(){
+    const duplicatedList = <%= @duplicatedList.map(&:to_s).to_json.html_safe %>;
+    console.log(duplicatedList);
+    const problemId = document.getElementById("problemId").value.trim();
+    const searchResultContainer = document.getElementById("searchResultContainer");
+    if (duplicatedList.includes(problemId)) {
+      console.log(`Problem ID ${problemId} is duplicated.`);
+      searchResultContainer.innerHTML = "이 문제는 푼사람 있어요!"
+      // Perform actions for duplicate problemId
+    } else {
+      console.log(`Problem ID ${problemId} is not duplicated.`);
+      searchResultContainer.innerHTML = "이 문제는 푼사람 없어요!"
+      // Perform actions for non-duplicate problemId
+    }
+    
+  }
+</script>

@@ -1,0 +1,47 @@
+/* app/assets/stylesheets/index.scss */
+
+.search-form {
+    .input-group {
+      display: flex;
+      align-items: center; /* Align items vertically center within the flex container */
+  
+      label {
+        margin-right: 10px;
+      }
+  
+      input[type="text"] {
+        flex: 1;
+        padding: 8px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+  
+      input[type="submit"] {
+        background-color: #5cb85c;
+        color: #ffffff;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      
+    }
+    
+  }
+  .create-button {
+    background-color: #5bc0de;
+    width: 100%;
+    align-content: center;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px; /* Add some top margin for spacing */
+  }
+  
+  .create-button:hover {
+    background-color: #4cae4c; /* Change background color on hover */
+  }

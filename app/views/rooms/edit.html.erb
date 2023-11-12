@@ -1,0 +1,156 @@
+<div class="container">
+  <div class="page-header">
+    <h1>스터디원 추가/삭제</h1>
+  </div>
+
+  <div class="room-details">
+    <strong>스터디명:</strong> <%= @room.name %>
+  </div>
+
+  <div class="edit-form">
+    <div class="ids">
+      <label for="idsInput">백준 아이디:</label>
+
+      <div id="idsContainer">
+        <% json_ids = JSON.parse(@room.ids) rescue [] %>
+        <% json_ids.each do |id| %>
+          <div class="id-item">
+            <%= id %> 
+            <button onclick="removeId('<%= id %>')">X</button>
+          </div>
+        <% end %>
+      </div>
+
+      <textarea id="idsInput" placeholder="백준 아이디를 입력해주세요"></textarea>
+      <button id="addIdButton" type="button" onclick="addId()">추가</button>
+
+      <div class="password">
+        <label for="password">비밀번호:</label>
+        <input id="password" type="password" placeholder="비밀번호를 입력해 주세요.">
+      </div>
+      <div class="edit-buttons">
+        <button id="signUpButton" onclick="edit()">편집하기</button>
+      </div>
+      <div id="submitResult" style="color: red"></div>
+    </div>
+  </div>
+
+  <div class="navigation-links">
+    <%= link_to "스터디 방으로 돌아가기", @room %> |
+    <%= link_to "홈으로 가기", rooms_path %>
+  </div>
+</div>
+
+
+<script>
+  <% json_ids = JSON.parse(@room.ids) rescue [] %>;
+  var idsList = <%= json_ids.map(&:to_s).to_json.html_safe %>;  // ids 값을 저장할 배열
+  var valid = [];
+  var invalid = [];
+  
+  async function idsValidate(){
+    const idsListString = JSON.stringify(idsList);
+    uri = "/baekjoon/validate?ids=" + encodeURIComponent(idsListString)
+    const response = await fetch(uri, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+    console.log('GET 요청 성공:', data);
+
+    return {
+      invalid: data.invalid,
+      valid: data.valid
+    };
+  }
+
+  async function edit(){
+    if(idsList.length == 0){
+      submitResult.innerHTML = '적어도 한명의 id를 입력해주세요';
+      return false
+    }
+    const validationResult = await idsValidate();
+    if(invalid.length != 0){
+      submitResult.innerHTML = '백준 아이디를 확인 해주세요!'
+      return false
+    }
+    const formData = new FormData();
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    idString = JSON.stringify(idsList);
+    formData.append('authenticity_token', csrfToken);
+    formData.append('room[name]', "<%= @room.name %>");
+    if (idsList.length > 0) {
+      formData.append('room[ids]', idString);
+    }
+    console.log(document.getElementById('password').value);
+    formData.append('room[password]', document.getElementById('password').value);
+    formData.append('commit', 'Update Room');
+    const response = await fetch('/rooms/<%= @room.id %>', {
+        method: 'PATCH',
+        body: formData,
+        headers: {
+          'X-CSRF-Token': csrfToken, // 요청 헤더에 CSRF 토큰 추가,
+          'Accept': 'application/json' // JSON 형식으로 응답을 요청
+        }
+      });
+    if (response.code == 200){
+      window.location.href = `/rooms/${<%= @room.id %>}`;
+    }
+
+  }
+  function addId() {
+    const idsInput = document.getElementById('idsInput');
+    const idValue = idsInput.value.trim();
+
+    if (idValue.length > 0) {
+      idsList.push(idValue);
+      renderIdsList();
+      idsInput.value = '';
+    }
+  }
+
+  function removeId(index) {
+    idsList.splice(index, 1);
+    renderIdsList();
+  }
+
+
+function renderIdsList() {
+  const idsInput = document.getElementById('idsInput');
+  const idsContainer = document.getElementById('idsContainer');
+
+  // 기존 내용 비우기
+  while (idsContainer.firstChild) {
+    idsContainer.removeChild(idsContainer.firstChild);
+  }
+
+  // 새로운 내용 추가
+  idsList.forEach((id, index) => {
+    const idElement = document.createElement('div');
+    idElement.textContent = `${id} `;
+
+    if (valid && valid.includes(id)) {
+      idElement.textContent += ' : O';
+    }
+
+    if (invalid && invalid.includes(id)) {
+      idElement.textContent += ' : X';
+    }
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'X';
+    deleteButton.addEventListener('click', () => removeId(index));
+
+    // 클래스 추가
+    idElement.classList.add('ids-list-item');
+    deleteButton.classList.add('ids-list-item-button');
+
+    idElement.appendChild(deleteButton);
+    idsContainer.appendChild(idElement);
+  });
+}
+
+</script>

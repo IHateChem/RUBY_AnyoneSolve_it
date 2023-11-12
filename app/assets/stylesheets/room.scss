@@ -1,0 +1,50 @@
+/* app/assets/stylesheets/room.scss */
+
+.room-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .room-info {
+    margin-bottom: 10px;
+  }
+  
+  .search-container {
+    margin-top: 20px;
+  }
+  
+  .full-width {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  #problemId, button {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 100%;
+  }
+  
+  button {
+    background-color: #5bc0de;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #4cae4c;
+  }
+  
+  #searchResultContainer {
+    margin-top: 10px;
+    width: 100%;
+    /* Add additional styles for the search results container if needed */
+  }
+  

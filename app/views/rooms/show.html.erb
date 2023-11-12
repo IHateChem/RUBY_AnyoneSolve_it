@@ -1,0 +1,14 @@
+<!-- app/views/rooms/show.html.erb -->
+
+<div class="container">
+  <p style="color: green;"><%= notice %></p>
+
+  <%= render @room %>
+
+  <div class="navigation-links">
+    <%= link_to "스터디원 추가하기", edit_room_path(@room), class: "edit-link" %> |
+    <%= link_to "홈으로 돌아가기", rooms_path, class: "back-link" %>
+
+    <%= button_to "스터디 삭제하기", @room, method: :delete, class: "destroy-button" %>
+  </div>
+</div>
