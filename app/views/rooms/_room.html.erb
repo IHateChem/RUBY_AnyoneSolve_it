@@ -10,13 +10,19 @@
     <%= room.ids %>
   </p>
   <div id="search" class="search-container">
-    <input id="problemId" type="text" placeholder="백준 번호 입력해주세요.">
-    <button type="button" onclick="checkDuplicate()">이거 푼사람 있나요?</button>
+    <input id="problemId" type="text" placeholder="백준 번호 입력해주세요." onkeydown="checkEnter(event)">
+    <button type="button" onclick="checkDuplicate()" >이거 푼사람 있나요?</button>
     <div id="searchResultContainer"></div>
   </div>
 </div>
 
 <script>
+
+  function checkEnter(event) {
+      if (event.key === "Enter") {
+          checkDuplicate();
+      }
+  }
   function checkDuplicate(){
     const duplicatedList = <%= @duplicatedList.map(&:to_s).to_json.html_safe %>;
     console.log(duplicatedList);
@@ -24,7 +30,7 @@
     const searchResultContainer = document.getElementById("searchResultContainer");
     if (duplicatedList.includes(problemId)) {
       console.log(`Problem ID ${problemId} is duplicated.`);
-      searchResultContainer.innerHTML = "이 문제는 푼사람 있어요!"
+      searchResultContainer.innerHTML = "<span style='color: red;'>이 문제는 푼사람 있어요!"
       // Perform actions for duplicate problemId
     } else {
       console.log(`Problem ID ${problemId} is not duplicated.`);
