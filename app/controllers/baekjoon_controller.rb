@@ -5,14 +5,16 @@ class BaekjoonController < ApplicationController
     validUsers = []
     invalidUsers = []
     ids.each do |id|
+      if !/^[a-zA-Z0-9]+$/.match?(id)
+        invalidUsers.push(id)
+        next
+      end
       flag = true
       response = HTTParty.get(api_url+id)
       if response.code == 200
         result = JSON.parse(response.body)
         count = result['count']
         items = result['items']
-
-        puts "Count: #{count}"
         items.each do |item|
           if item['handle'] == id
             validUsers.push(id)
@@ -25,7 +27,6 @@ class BaekjoonController < ApplicationController
         end
       else
         invalidUsers.push(id)
-        puts "API 요청 실패. 응답 코드: #{response.code}"
       end
     end
     respond_to do |format|

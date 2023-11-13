@@ -21,8 +21,8 @@
         <% end %>
       </div>
 
-      <textarea id="idsInput" placeholder="백준 아이디를 입력해주세요"></textarea>
-      <button id="addIdButton" type="button" onclick="addId()">추가</button>
+      <textarea id="idsInput" placeholder="백준 아이디를 입력해주세요" onkeydown="checkEnter(event)"></textarea>
+      <button id="addIdButton" type="button" onclick="addId()" >추가</button>
 
       <div class="password">
         <label for="password">비밀번호:</label>
@@ -48,6 +48,11 @@
   var valid = [];
   var invalid = [];
   
+  function checkEnter(event) {
+      if (event.key === "Enter") {
+          addId();
+      }
+  }
   async function idsValidate(){
     const idsListString = JSON.stringify(idsList);
     uri = "/baekjoon/validate?ids=" + encodeURIComponent(idsListString)

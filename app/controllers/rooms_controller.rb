@@ -62,12 +62,13 @@ class RoomsController < ApplicationController
     Rails.logger.info "not cahced.."
     # Number of threads to use
     num_threads = ids_array.length  # Adjust this based on your requirements
-
+    if num_threads==0
+      num_threads = 1
+    end
     # Synchronize access to shared data using Mutex
     mutex = Mutex.new
 
     duplicate_set = Set.new
-    puts ids_array
     threads = []
     ids_array.each_slice(ids_array.length / num_threads) do |ids_chunk|
       thread = Thread.new do
@@ -86,7 +87,6 @@ class RoomsController < ApplicationController
     room_problem = RoomProblem.find_or_initialize_by(room_id: params[:id])
     room_problem.update(ids: @duplicatedList, timeExpired: Time.now + CACHE_EXPIRATION_TIME)
     room_problem.save!  # Save the record
-    puts "List count: #{@duplicatedList.length}"
   end
 
   # GET /rooms/new

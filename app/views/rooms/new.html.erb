@@ -6,7 +6,7 @@
   <div class="result">
     <div class="form-group">
       <label for="name">스터디명:</label>
-      <input id="name" type="text" placeholder="스터디명을 입력해 주세요.">
+      <input id="name" type="text" placeholder="스터디명을 입력해 주세요." onkeydown="checkEnter2(event)">
       <button type="button" onclick="checkDuplicate()">중복 체크</button>
       <div id="resultContainer"></div>
     </div>
@@ -14,7 +14,7 @@
     <div class="form-group">
       <label for="idsInput">백준 아이디:</label>
       <div id="idsContainer"></div>
-      <textarea id="idsInput" placeholder="백준 아이디를 입력해주세요"></textarea>
+      <textarea id="idsInput" placeholder="백준 아이디를 입력해주세요" onkeydown="checkEnter(event)"></textarea>
       <button id="addIdButton" type="button" onclick="addId()">추가</button>
     </div>
 
@@ -46,6 +46,18 @@
   var isNameAvailable = false; 
   var valid = [];
   var invalid = [];
+  function checkEnter2(event) {
+      if (event.key === "Enter") {
+          // 엔터 키가 눌렸을 때 중복 체크 함수 실행
+          checkDuplicate();
+      }
+  }
+
+  function checkEnter(event) {
+      if (event.key === "Enter") {
+          addId();
+      }
+  }
   async function requestNew(){
       const formData = new FormData();
       const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
@@ -143,6 +155,7 @@
         const resultContainer = document.getElementById('resultContainer');
         resultContainer.innerHTML = data.exist ? '중복된 이름입니다.' : '사용 가능한 이름입니다.';
         updateSignUpButtonState(data.exist);
+        return !data.exist;
       })
       .catch(error => console.error('Error:', error));
   }
