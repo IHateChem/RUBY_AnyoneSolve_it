@@ -6,19 +6,22 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
-
+- Ruby 3.2.2
 * System dependencies
-
+  Rails 7.1.1
 * Configuration
 
-* Database creation
-
-* Database initialization
 
 * How to run the test suite
+### install
+'''
+$ git clone https://github.com/IHateChem/RUBY_AnyoneSolve_it
+$ cd RUBY_AnyoneSolve_it
+'''
 
-* Services (job queues, cache servers, search engines, etc.)
+### Run
+'''bash
+$ rails s
+'''
+---
 
-* Deployment instructions
-
-* ...
