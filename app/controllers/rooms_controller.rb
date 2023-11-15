@@ -48,6 +48,48 @@ class RoomsController < ApplicationController
     @rooms = Room.all
   end
 
+  # def show
+  #   require 'set'
+  #   require 'thread'
+  #   @room = Room.find(params[:id])
+  #   ids_array = JSON.parse(@room.ids) rescue []
+  #   roomProblem = RoomProblem.find_by(room_id: params[:id])
+  #   if roomProblem && roomProblem.timeExpired > Time.now
+  #     @duplicatedList = roomProblem.ids
+  #     return
+  #   end
+  #   Rails.logger.info "not cahced.."
+  #   @duplicate_set = Set
+  #   ids_array.each do |id|
+  #     page = 1
+  #     loop do
+  #       uri = "https://solved.ac/api/v3/search/problem?query=@" + id + "&page=" + page.to_s
+  #       response = HTTParty.get(uri)
+  #       if response.code == 200
+  #         result = JSON.parse(response.body)
+  #         items = result['items']
+  #         if items.length == 0
+  #           break
+  #         end
+  #         items.each do |item|
+  #           @duplicate_set.add(item["problemId"])
+  #         end
+  #         page += 1
+  #       else
+  #         break
+  #       end
+  #     end
+  #   end
+
+  #   @duplicatedList = @duplicate_set.to_a
+
+
+  #   # Check if the RoomProblem record already exists for the duplicate_id
+  #   room_problem = RoomProblem.find_or_initialize_by(room_id: params[:id])
+  #   room_problem.update(ids: @duplicatedList, timeExpired: Time.now + CACHE_EXPIRATION_TIME)
+  #   room_problem.save!  # Save the record
+  # end
+
   # GET /rooms/1 or /rooms/1.json
   def show
     require 'set'
