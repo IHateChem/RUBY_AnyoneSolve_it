@@ -14,14 +14,14 @@ Things you may want to cover:
 
 * How to run the test suite
 ### install
-'''
+```
 $ git clone https://github.com/IHateChem/RUBY_AnyoneSolve_it
 $ cd RUBY_AnyoneSolve_it
-'''
+```
 
 ### Run
-'''bash
+```bash
 $ rails s
-'''
+```
 ---
 
