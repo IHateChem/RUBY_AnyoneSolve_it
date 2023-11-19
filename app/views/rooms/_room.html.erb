@@ -22,7 +22,6 @@
   <div id="search-input" class="search-container">
     <input id="problemId2" type="text" placeholder="백준 번호 입력해주세요." onkeydown="checkEnterHow(event)" oninput="validateNumberInput(this)">
     <button type="button" onclick="howAboutThisProblem()">이 문제 어때요?</button>
-    <div id="howResultContainer"></div>
   </div>
 
   <% if @problem_info.present? %>
@@ -37,7 +36,12 @@
         </a>
         <button onclick="copyToClipboard()" class="copyButton" id="copyButton">복사 하기</button>
       </p>
-  </div>
+      <% if @duplicatedList.include? @problem_info[:problemId]%>
+      <div id="howResultContainer">
+        <span style='color: red;'>이 문제는 푼사람 있어요!
+        </span>
+      </div>
+      <%end%>
   <% end %>
 </div>
 
@@ -72,10 +76,6 @@
       },
     });
     const howResultContainer = document.getElementById("howResultContainer");
-    if (duplicatedList.includes(problemId)){
-      howResultContainer.innerHTML = "<span style='color: red;'>푼사람 있는 문제에요!"
-    }
-    
     location.reload();
   }
 
