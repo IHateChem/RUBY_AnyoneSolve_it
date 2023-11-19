@@ -31,3 +31,15 @@ jobs:
           # Adjust your setup steps accordingly based on your project requirements
           bundle exec rake db:create
           bundle exec rake db:migrate
+      - name: deploy to NHN
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_IP }}
+          username: ${{ secrets.REMOTE_SSH_ID }}
+          key: ${{ secrets.REMOTE_SSH_KEY }}
+          port: ${{ secrets.REMOTE_SSH_PORT }}
+          script: |
+            sudo su
+            cd ~
+            cd RUBY_AnyoneSolve_it/
+            git pull
