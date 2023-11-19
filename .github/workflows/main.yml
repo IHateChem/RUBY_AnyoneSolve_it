@@ -39,6 +39,5 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            sudo su
-            cd ~/RUBY_AnyoneSolve_it
-            git pull
+            cd ~/RUBY_AnyoneSolve_it && git pull
+
