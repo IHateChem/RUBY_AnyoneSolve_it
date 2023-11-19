@@ -39,8 +39,7 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            sudo su
             echo "Start deplying..."
-            cd /root/RUBY_AnyoneSolve_it/ && git pull
+            sudo su && cd /root/RUBY_AnyoneSolve_it/ && git pull
             echo "finish deplying..."
 
