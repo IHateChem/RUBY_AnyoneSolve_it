@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get "room/exist" => "rooms#exist"
   get "room/duplicate" => "rooms#duplicate"
   get "baekjoon/validate" => "baekjoon#validation"
+  get "room/howabout" => "rooms#howabout"
 
   # Defines the root path route ("/")
   # root "posts#index"

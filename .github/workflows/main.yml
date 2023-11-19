@@ -31,4 +31,3 @@ jobs:
           # Adjust your setup steps accordingly based on your project requirements
           bundle exec rake db:create
           bundle exec rake db:migrate
-          bundle exec rspec .

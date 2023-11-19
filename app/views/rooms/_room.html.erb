@@ -10,13 +10,89 @@
     <%= room.ids %>
   </p>
   <div id="search" class="search-container">
-    <input id="problemId" type="text" placeholder="백준 번호 입력해주세요.">
+    <input id="problemId" type="text" placeholder="백준 번호 입력해주세요." onkeydown="checkEnterSearch(event)" oninput="validateNumberInput(this)">
     <button type="button" onclick="checkDuplicate()">이거 푼사람 있나요?</button>
     <div id="searchResultContainer"></div>
   </div>
+  <div id="how-about">
+    <h1>이 문제 어때요?</h1>
+  </div>
+  <button id = "refresh" class = "refresh" onclick="reloadPage()">새로 고침!</button>
+
+  <div id="search-input" class="search-container">
+    <input id="problemId2" type="text" placeholder="백준 번호 입력해주세요." onkeydown="checkEnterHow(event)" oninput="validateNumberInput(this)">
+    <button type="button" onclick="howAboutThisProblem()">이 문제 어때요?</button>
+    <div id="howResultContainer"></div>
+  </div>
+
+  <% if @problem_info.present? %>
+
+    <div id="problem_info" class="problem-info">
+      <p class="problem-name">문제 이름: <%= @problem_info[:title] %></p>
+      <p class="problem-level">Level: <%= @problem_info[:level] %></p>
+      <p class="problem-tags">Tags: <%= @problem_info[:tags].map { |tag| "#" + tag }.join(", ") %></p>
+      <p class="problem-link">
+        백준 링크: <a id="problemLink" href="https://www.acmicpc.net/problem/<%= @problem_info[:problemId] %>" target="_blank">
+          https://www.acmicpc.net/problem/<%= @problem_info[:problemId] %>
+        </a>
+        <button onclick="copyToClipboard()" class="copyButton" id="copyButton">복사 하기</button>
+      </p>
+  </div>
+  <% end %>
 </div>
 
 <script>
+
+  function checkEnterSearch(event) {
+      if (event.key === "Enter") {
+          checkDuplicate();
+      }
+  }
+
+  function checkEnterHow(event) {
+      if (event.key === "Enter") {
+          howAboutThisProblem();
+      }
+  }
+  function validateNumberInput(input) {
+    input.value = input.value.replace(/\D/g, '');
+  }
+  function reloadPage(){
+    location.reload();
+  }
+  async function howAboutThisProblem(){
+    var room_id = <%= @room.id %>
+    const duplicatedList = <%= @duplicatedList.map(&:to_s).to_json.html_safe %>;
+    console.info(room_id)
+    uri = "/room/howabout?id=" + room_id +"&problem=" + document.getElementById("problemId2").value
+    const response = await fetch(uri, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const howResultContainer = document.getElementById("howResultContainer");
+    if (duplicatedList.includes(problemId)){
+      howResultContainer.innerHTML = "<span style='color: red;'>푼사람 있는 문제에요!"
+    }
+    
+    location.reload();
+  }
+
+  function copyToClipboard() {
+    const textToCopy = document.getElementById("problemLink").innerText;
+
+    const dummyInput = document.createElement("input");
+    document.body.appendChild(dummyInput);
+    dummyInput.setAttribute("id", "dummyInput");
+    dummyInput.setAttribute("value", textToCopy);
+    dummyInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummyInput);
+
+    // 복사가 성공했을 때 알림 등을 추가할 수 있습니다.
+    alert("링크가 클립보드에 복사되었습니다!");
+    }
   function checkDuplicate(){
     const duplicatedList = <%= @duplicatedList.map(&:to_s).to_json.html_safe %>;
     console.log(duplicatedList);
@@ -24,7 +100,7 @@
     const searchResultContainer = document.getElementById("searchResultContainer");
     if (duplicatedList.includes(problemId)) {
       console.log(`Problem ID ${problemId} is duplicated.`);
-      searchResultContainer.innerHTML = "이 문제는 푼사람 있어요!"
+      searchResultContainer.innerHTML = "<span style='color: red;'>이 문제는 푼사람 있어요!"
       // Perform actions for duplicate problemId
     } else {
       console.log(`Problem ID ${problemId} is not duplicated.`);

@@ -2,6 +2,30 @@ class RoomsController < ApplicationController
   CACHE_EXPIRATION_TIME = 1.hour
   before_action :set_room, only: %i[ show edit update destroy ]
   # Function to process a single ID
+  def howabout
+    level_to_rank = ["Unrated", "브론즈5", "브론즈4", "브론즈3", "브론즈2", "브론즈1", "실버5", "실버4", "실버3","실버2","실버1", "골드5", "골드4","골드3", "골드2", "골드1", "플레5", "플레4", "플레3", "플레2", "플레1", "다이아5", "다이아4", "다이아3", "다이아2", "다이아1", "루비5", "루비4", "루비3", "루비2", "루비1"]
+    room_id = params[:id]
+    problem = params[:problem]
+    uri = "https://solved.ac/api/v3/problem/show?problemId=" + problem
+    response = HTTParty.get(uri)
+    if response.code == 200
+      result = JSON.parse(response.body)
+      tags = result['tags'].map { |element| element['key'] }
+      title = result['titleKo']
+      level = level_to_rank[result['level'].to_i]
+      Rails.logger.info(tags)
+      new_model = NewModel.find_or_initialize_by(room_id: params[:id])
+      new_model.update(
+        title: title,
+        level: level,
+        tags: tags,
+        expired: 5.minutes.from_now,
+        problemId: problem
+      )
+      new_model.save!
+    end
+
+  end
   def process_id(id, duplicate_set, mutex)
     page = 1
     loop do
@@ -95,6 +119,10 @@ class RoomsController < ApplicationController
     require 'set'
     require 'thread'
     @room = Room.find(params[:id])
+    @problem_info = NewModel.find_by(room_id:params[:id])
+    if @problem_info != nil and @problem_info.expired < Time.now
+      @problem_info = nil
+    end
     ids_array = JSON.parse(@room.ids) rescue []
     roomProblem = RoomProblem.find_by(room_id: params[:id])
     if roomProblem && roomProblem.timeExpired > Time.now

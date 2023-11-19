@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_11_140609) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_19_100813) do
+  create_table "new_models", force: :cascade do |t|
+    t.integer "room_id", null: false
+    t.string "title"
+    t.string "level"
+    t.json "tags"
+    t.datetime "expired"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "problemId"
+    t.index ["room_id"], name: "index_new_models_on_room_id"
+  end
+
   create_table "room_problems", force: :cascade do |t|
     t.integer "room_id"
     t.json "ids"
@@ -35,4 +47,5 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_11_140609) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "new_models", "rooms"
 end
