@@ -41,6 +41,6 @@ jobs:
           script: |
             sudo su
             echo "Start deplying..."
-            cd ~/RUBY_AnyoneSolve_it/ && git pull
+            cd /root/RUBY_AnyoneSolve_it/ && git pull
             echo "finish deplying..."
 
