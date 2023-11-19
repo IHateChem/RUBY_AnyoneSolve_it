@@ -210,10 +210,16 @@ class RoomsController < ApplicationController
 
   # DELETE /rooms/1 or /rooms/1.json
   def destroy
-    @room.destroy!
+    password = params[:password]
     respond_to do |format|
-      format.html { redirect_to rooms_url, notice: "Room was successfully destroyed." }
-      format.json { head :no_content }
+      if Room.find(params[:id]).password == password
+        Rails.logger.info "password 일치"
+        @room.destroy!
+        return
+      else
+        format.html { render :delete, status: :unauthorized }
+        format.json { render json: @room.errors, status: :unauthorized }
+      end
     end
   end
 
