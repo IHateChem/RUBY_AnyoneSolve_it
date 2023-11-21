@@ -81,17 +81,9 @@
 
   function copyToClipboard() {
     const textToCopy = document.getElementById("problemLink").innerText;
-
-    const dummyInput = document.createElement("input");
-    document.body.appendChild(dummyInput);
-    dummyInput.setAttribute("id", "dummyInput");
-    dummyInput.setAttribute("value", textToCopy);
-    dummyInput.select();
-    document.execCommand("copy");
-    document.body.removeChild(dummyInput);
-
-    // 복사가 성공했을 때 알림 등을 추가할 수 있습니다.
-    alert("링크가 클립보드에 복사되었습니다!");
+    window.navigator.clipboard.writeText(textToCopy).then(()=>{
+      alert("링크가 클립보드에 복사되었습니다!");
+    })
     }
   function checkDuplicate(){
     const duplicatedList = <%= @duplicatedList.map(&:to_s).to_json.html_safe %>;
@@ -100,11 +92,11 @@
     const searchResultContainer = document.getElementById("searchResultContainer");
     if (duplicatedList.includes(problemId)) {
       console.log(`Problem ID ${problemId} is duplicated.`);
-      searchResultContainer.innerHTML = "<span style='color: red;'>이 문제는 푼사람 있어요!"
+      searchResultContainer.innerHTML = `<span style='color: red;'>${problemId}번은 푼사람 있어요!`
       // Perform actions for duplicate problemId
     } else {
       console.log(`Problem ID ${problemId} is not duplicated.`);
-      searchResultContainer.innerHTML = "이 문제는 푼사람 없어요!"
+      searchResultContainer.innerHTML = `${problemId}번은 푼사람 없어요!`
       // Perform actions for non-duplicate problemId
     }
     
