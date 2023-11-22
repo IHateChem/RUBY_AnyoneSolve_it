@@ -93,7 +93,6 @@
     // 복사가 성공했을 때 알림 등을 추가할 수 있습니다.
     alert("링크가 클립보드에 복사되었습니다!");
     }
-    }
   function checkDuplicate(){
     const duplicatedList = <%= @duplicatedList.map(&:to_s).to_json.html_safe %>;
     console.log(duplicatedList);
